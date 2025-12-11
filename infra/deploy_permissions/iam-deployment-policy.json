@@ -1,0 +1,91 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "IAMManageOwnCredentials",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateAccessKey",
+        "iam:DeleteAccessKey",
+        "iam:ListAccessKeys",
+        "iam:UpdateAccessKey",
+        "iam:GetAccessKeyLastUsed",
+        "iam:GetUser",
+        "iam:ChangePassword",
+        "iam:GetLoginProfile",
+        "iam:ListMFADevices",
+        "iam:ListSigningCertificates",
+        "iam:ListSSHPublicKeys"
+      ],
+      "Resource": "arn:aws:iam::*:user/${aws:username}"
+    },
+    {
+      "Sid": "S3FullAccess",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudFrontManagement",
+      "Effect": "Allow",
+      "Action": [
+        "cloudfront:CreateDistribution",
+        "cloudfront:UpdateDistribution",
+        "cloudfront:GetDistribution",
+        "cloudfront:GetDistributionConfig",
+        "cloudfront:DeleteDistribution",
+        "cloudfront:ListDistributions",
+        "cloudfront:TagResource",
+        "cloudfront:UntagResource",
+        "cloudfront:ListTagsForResource",
+        "cloudfront:CreateOriginAccessControl",
+        "cloudfront:GetOriginAccessControl",
+        "cloudfront:UpdateOriginAccessControl",
+        "cloudfront:DeleteOriginAccessControl",
+        "cloudfront:ListOriginAccessControls",
+        "cloudfront:CreateCloudFrontOriginAccessIdentity",
+        "cloudfront:GetCloudFrontOriginAccessIdentity",
+        "cloudfront:UpdateCloudFrontOriginAccessIdentity",
+        "cloudfront:DeleteCloudFrontOriginAccessIdentity",
+        "cloudfront:ListCloudFrontOriginAccessIdentities",
+        "cloudfront:CreateInvalidation",
+        "cloudfront:GetInvalidation",
+        "cloudfront:ListInvalidations"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "Route53Management",
+      "Effect": "Allow",
+      "Action": [
+        "route53:GetHostedZone",
+        "route53:ListHostedZones",
+        "route53:ListHostedZonesByName",
+        "route53:GetChange",
+        "route53:ChangeResourceRecordSets",
+        "route53:ListResourceRecordSets"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ACMReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "acm:DescribeCertificate",
+        "acm:ListCertificates",
+        "acm:GetCertificate",
+        "acm:ListTagsForCertificate"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "STSIdentity",
+      "Effect": "Allow",
+      "Action": [
+        "sts:GetCallerIdentity"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+

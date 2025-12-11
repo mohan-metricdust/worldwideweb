@@ -1,0 +1,140 @@
+name: BeanInfoSysWorldWideWeb
+
+trigger: none
+pr: none
+
+variables:
+  - group: BEANINFOSYS
+  - name: DOCKER_IMAGE
+    value: "docker.io/lookforlohith/metricdust_ado_deployment_docker:latest"
+
+parameters:
+  - name: profile_name
+    type: string
+    displayName: "Profile Name"
+    default: "beaninfosys"
+
+stages:
+- stage: DeployBeta
+  displayName: 'Deploy to Beta Environment'
+  jobs:
+  - deployment: BetaDeployment
+    displayName: 'Deploy to Beta'
+    pool:
+      vmImage: 'ubuntu-latest'
+    container:
+      image: ${{ variables.DOCKER_IMAGE }}
+      options: --platform linux/amd64
+    environment:
+      name: 'beta'
+      # This environment should be configured in Azure DevOps with approval checks
+    variables:
+      PARAM_PROFILE_NAME: ${{ parameters.profile_name }}
+      BETA_AWS_REGION: 'us-west-2'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              fetchDepth: "0"
+              clean: "true"
+              path: 's/$(Build.Repository.Name)'
+              displayName: 'Checkout Repository'
+
+            - bash: |
+                set -e
+                set -x
+                pwd
+                ls -l
+                echo "Setting up AWS credentials for Beta deployment..."
+                export AWS_ACCESS_KEY_ID=$(BEANINFOSYS_BETA_AWS_ACCESS_KEY_ID)
+                export AWS_SECRET_ACCESS_KEY=$(BEANINFOSYS_BETA_AWS_SECRET_ACCESS_KEY)
+
+                aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID" --profile "$PARAM_PROFILE_NAME"
+                aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY" --profile "$PARAM_PROFILE_NAME"
+                aws configure set region "$BETA_AWS_REGION" --profile "$PARAM_PROFILE_NAME"
+                aws configure set output "json" --profile "$PARAM_PROFILE_NAME"
+                
+                aws sts get-caller-identity --profile "$PARAM_PROFILE_NAME"
+                
+                echo "Deploying to Beta Environment..."
+                chmod +x z_setup_s3_create_deploy_beta.sh
+                ./z_setup_s3_create_deploy_beta.sh
+
+                echo "Successfully deployed to Beta environment"
+              displayName: 'Deploy to Beta Environment'
+              workingDirectory: $(Pipeline.Workspace)/s/$(Build.Repository.Name)
+              env:
+                BEANINFOSYS_BETA_AWS_ACCESS_KEY_ID: $(BEANINFOSYS_BETA_AWS_ACCESS_KEY_ID)
+                BEANINFOSYS_BETA_AWS_SECRET_ACCESS_KEY: $(BEANINFOSYS_BETA_AWS_SECRET_ACCESS_KEY)
+
+- stage: DeployToProd
+  displayName: 'Deploy to Production'
+  dependsOn: DeployBeta
+  condition: succeeded('DeployBeta')
+  jobs:
+  - deployment: ProductionDeployment
+    displayName: 'Deploy to Production'
+    pool:
+      vmImage: 'ubuntu-latest'
+    container:
+      image: ${{ variables.DOCKER_IMAGE }}
+      options: --platform linux/amd64
+    environment:
+      name: 'prod'
+      # This environment should be configured in Azure DevOps with approval checks
+    variables:
+      PARAM_PROFILE_NAME: ${{ parameters.profile_name }}
+      PROD_AWS_REGION: 'us-west-2'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              fetchDepth: "0"
+              clean: "true"
+              path: 's/$(Build.Repository.Name)'
+              displayName: 'Checkout Repository'
+
+            - bash: |
+                set -e
+                set -x
+                pwd
+                ls -l
+                echo "Setting up AWS credentials for Production deployment."
+                export AWS_ACCESS_KEY_ID=$(BEANINFOSYS_PROD_AWS_ACCESS_KEY_ID)
+                export AWS_SECRET_ACCESS_KEY=$(BEANINFOSYS_PROD_AWS_SECRET_ACCESS_KEY)
+                export CARTESIA_API_KEY=$(BEANINFOSYS_PROD_CARTESIA_API_KEY)
+                export DEEPGRAM_API_KEY=$(BEANINFOSYS_PROD_DEEPGRAM_API_KEY)
+                export GROQ_API_KEY=$(BEANINFOSYS_PROD_GROQ_API_KEY)
+                export HF_TOKEN=$(BEANINFOSYS_PROD_HF_TOKEN)
+                export LIVEKIT_API_KEY=$(BEANINFOSYS_PROD_LIVEKIT_API_KEY)
+                export LIVEKIT_API_SECRET=$(BEANINFOSYS_PROD_LIVEKIT_API_SECRET)
+                export LIVEKIT_URL=$(BEANINFOSYS_PROD_LIVEKIT_URL)
+      
+                aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID" --profile "$PARAM_PROFILE_NAME"
+                aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY" --profile "$PARAM_PROFILE_NAME"
+                aws configure set region "$PROD_AWS_REGION" --profile "$PARAM_PROFILE_NAME"
+                aws configure set output "json" --profile "$PARAM_PROFILE_NAME"
+                
+                aws sts get-caller-identity --profile "$PARAM_PROFILE_NAME"
+                
+                echo "Deploying to Production..."
+                ls -l
+                chmod +x z_setup_s3_create_deploy_prod.sh
+                ./z_setup_s3_create_deploy_prod.sh
+      
+                echo "Successfully deployed to Production"
+              displayName: 'Deploy to Production'
+              workingDirectory: $(Pipeline.Workspace)/s/$(Build.Repository.Name)
+              env:
+                BEANINFOSYS_PROD_AWS_ACCESS_KEY_ID: $(BEANINFOSYS_PROD_AWS_ACCESS_KEY_ID)
+                BEANINFOSYS_PROD_AWS_SECRET_ACCESS_KEY: $(BEANINFOSYS_PROD_AWS_SECRET_ACCESS_KEY)
+                BEANINFOSYS_PROD_CARTESIA_API_KEY: $(BEANINFOSYS_PROD_CARTESIA_API_KEY)
+                BEANINFOSYS_PROD_DEEPGRAM_API_KEY: $(BEANINFOSYS_PROD_DEEPGRAM_API_KEY)
+                BEANINFOSYS_PROD_GROQ_API_KEY: $(BEANINFOSYS_PROD_GROQ_API_KEY)
+                BEANINFOSYS_PROD_HF_TOKEN: $(BEANINFOSYS_PROD_HF_TOKEN)
+                BEANINFOSYS_PROD_LIVEKIT_API_KEY: $(BEANINFOSYS_PROD_LIVEKIT_API_KEY)
+                BEANINFOSYS_PROD_LIVEKIT_API_SECRET: $(BEANINFOSYS_PROD_LIVEKIT_API_SECRET)
+                BEANINFOSYS_PROD_LIVEKIT_URL: $(BEANINFOSYS_PROD_LIVEKIT_URL)
+

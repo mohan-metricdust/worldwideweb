@@ -1,0 +1,4 @@
+cloudfront_distribution_id = "E2LAMC5V49LN45"
+cloudfront_domain_name = "dd5duusw1expg.cloudfront.net"
+s3_bucket_website_endpoint = "www.beta.beaninfosys.net.s3-website-us-west-2.amazonaws.com"
+website_url = "https://www.beta.beaninfosys.net"
