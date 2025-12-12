@@ -1,0 +1,486 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Updated for light theme */
+    --background: 0 0% 100%; /* White background */
+    --foreground: 0 0% 13%; /* Dark text for white background */
+    
+    --card: 0 0% 95%; /* Light gray for cards */
+    --card-foreground: 0 0% 13%; /* Dark text */
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+    
+    /* Bean colors - updated to new darker color */
+    --bean: 33 25% 20%; /* New darker color #3F321F */
+    --bean-light: 33 25% 30%; /* Lighter version */
+    --bean-dark: 33 25% 15%; /* Darker version */
+    --bean-foreground: 0 0% 100%; /* White */
+    
+    --primary: 33 25% 20%; /* Bean color for primary */
+    --primary-foreground: 0 0% 100%; /* White */
+    
+    --secondary: 0 0% 96%; /* Very light gray */
+    --secondary-foreground: 0 0% 13%; /* Dark text */
+    
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%; /* Medium gray for muted text */
+    
+    --accent: 33 25% 20%; /* New darker accent - #3F321F */
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 0 0% 89%; /* Light gray border */
+    --input: 0 0% 89%;
+    --ring: 33 25% 20%; /* New darker ring - #3F321F */
+    
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-gray-900; /* Dark headings */
+  }
+  
+  /* Ensure all text elements are dark by default */
+  p, span, div {
+    @apply text-gray-900;
+  }
+  
+  /* Specific overrides for lighter text where needed */
+  .text-muted {
+    @apply text-gray-600;
+  }
+  
+  .text-light {
+    @apply text-gray-500;
+  }
+}
+
+@layer components {
+  .elegant-link {
+    @apply text-bean-light hover:text-bean relative inline-block;
+  }
+  
+  .elegant-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-0.5 bg-bean-light scale-x-0 transition-transform duration-300 origin-bottom-right;
+  }
+  
+  .elegant-link:hover::after {
+    @apply scale-x-100 origin-bottom-left;
+  }
+  
+  .elegant-card {
+    @apply bg-gray-200 rounded-lg shadow-elegant hover:shadow-elegant-hover transition-shadow duration-300;
+  }
+  
+  .gradient-section {
+    @apply bg-white;
+  }
+  
+  .gradient-section-alt {
+    @apply bg-gray-100;
+  }
+  
+  .floating-element {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+  
+  .button-primary {
+    @apply bg-bean text-white px-6 py-2.5 rounded-lg hover:bg-bean-dark transition-colors duration-300;
+  }
+  
+  .button-secondary {
+    @apply border-2 border-bean-light bg-transparent text-gray-900 px-6 py-2.5 rounded-lg hover:bg-bean/10 transition-colors duration-300;
+  }
+  
+  /* Nav link styling */
+  .nav-link {
+    @apply px-4 py-2 relative transition-colors duration-200;
+  }
+  
+  /* Mobile nav styling */
+  .mobile-nav-menu {
+    @apply bg-white backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg;
+  }
+
+  /* New button styles */
+  .btn-primary {
+    @apply px-6 py-3 bg-bean text-white font-medium rounded-md hover:bg-bean-light transition-colors;
+  }
+  
+  /* Hero section gradient */
+  .hero-gradient {
+    @apply bg-white;
+  }
+
+  /* Text gradient for important headings */
+  .text-gradient {
+    @apply bg-gradient-to-r from-bean via-accent to-bean bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ... keep existing code (all keyframes, animations, and utility classes) */
+
+/* Updated hero gradient for new color scheme */
+.hero-gradient {
+  @apply bg-gradient-to-b from-black via-black to-black;
+}
+
+/* Global animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateIn {
+  0% {
+    transform: rotate(-5deg) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-effect {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(155, 135, 245, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scroll-section {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Magnetic button effect */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Mobile menu styles */
+@media (max-width: 1023px) {
+  .mobile-nav-menu {
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Slide animations for elements */
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 1s ease;
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 1s ease;
+}
+
+.slide-in-up {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease;
+}
+
+.slide-in-down {
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: all 1s ease;
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.animate-active {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.rotate-element {
+  transition: transform 0.5s ease;
+}
+
+.rotate-element:hover {
+  transform: rotate(5deg) scale(1.05);
+}
+
+/* Asymmetric grid layouts */
+.asymmetric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: minmax(100px, auto);
+  gap: 1.5rem;
+}
+
+.asymmetric-grid > div:nth-child(odd) {
+  grid-row-end: span 1;
+}
+
+.asymmetric-grid > div:nth-child(even) {
+  grid-row-end: span 2;
+}
+
+.asymmetric-grid > div:nth-child(3n) {
+  grid-column-end: span 2;
+}
+
+/* Horizontal scroll section */
+.horizontal-scroll-section {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Firefox */
+}
+
+.horizontal-scroll-section::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.horizontal-scroll-item {
+  min-width: 300px;
+  height: 400px;
+  margin-right: 1.5rem;
+  scroll-snap-align: start;
+}
+
+/* Diagonal section cuts */
+.diagonal-section {
+  position: relative;
+  padding: 6rem 0;
+  clip-path: polygon(0 0, 100% 5%, 100% 95%, 0 100%);
+}
+
+/* Parallax backgrounds */
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150%;
+  z-index: -1;
+  transform: translateZ(-10px) scale(2);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Loading animation */
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-progress {
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-top: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.loader-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, #9b87f5 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Glow effects */
+.glow-effect {
+  position: relative;
+}
+
+.glow-effect::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  z-index: -1;
+  background: radial-gradient(circle, rgba(155, 135, 245, 0.4) 0%, rgba(155, 135, 245, 0) 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-effect:hover::after {
+  opacity: 1;
+}
+
+/* Split text animation */
+.split-text {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.split-text span {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.split-text.animate span {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Scroll progress */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary) 0%, #9b87f5 100%);
+  z-index: 1000;
+  transition: width 0.1s ease;
+}
+
+/* Carousel custom styles */
+.embla {
+  overflow: hidden;
+  user-select: none;
+}
+
+.embla__container {
+  display: flex;
+  user-select: none;
+}
+
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+  cursor: grab;
+}
+
+.embla__slide:active {
+  cursor: grabbing;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.embla::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.embla {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+@media (max-width: 768px) {
+  .asymmetric-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .asymmetric-grid > div {
+    grid-column-end: span 1 !important;
+  }
+  
+  .diagonal-section {
+    clip-path: polygon(0 0, 100% 2%, 100% 98%, 0 100%);
+  }
+}
+
+/* Updated hero gradient for new color scheme */
+.hero-gradient {
+  @apply bg-gradient-to-b from-black via-black to-black;
+}
+
+/* Text shadow for better readability on transparent backgrounds */
+.text-shadow {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
