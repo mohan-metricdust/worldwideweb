@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PageHero from '@/components/layout/PageHero';
 import PageSection from '@/components/layout/PageSection';
@@ -19,6 +18,8 @@ import {
   BookOpenBlobIcon
 } from '@/components/ui/BlobIcons';
 import aboutMissionImage from '@/assets/about-mission-image.webp';
+import SEOHead from '@/components/seo/SEOHead';
+import StructuredData from '@/components/seo/StructuredData';
 
 const About = () => {
   const timeline = [
@@ -80,6 +81,14 @@ const About = () => {
 
   return (
     <>
+      <SEOHead
+        title="About Us - Our Story & Mission"
+        description="Discover Bean InfoSystems' journey since 2016. We deliver AI-powered software development and digital solutions to clients worldwide with innovation and excellence."
+        canonicalUrl="/about"
+        keywords="about bean infosystems, software company history, AI development team, digital transformation experts, client focused technology"
+      />
+      <StructuredData pageType="about" />
+      
       <PageHero 
         title="About Bean Infosystems" 
         subtitle="Driving digital transformation through innovation and expertise"
@@ -104,7 +113,7 @@ const About = () => {
             <div className="rounded-xl overflow-hidden shadow-xl">
               <img 
                 src={aboutMissionImage} 
-                alt="Our Mission - Team looking toward the future" 
+                alt="Bean InfoSystems team collaborating on innovative AI and software development solutions" 
                 className="w-full h-[400px] object-contain rounded-xl"
               />
             </div>
@@ -156,7 +165,7 @@ const About = () => {
               <div className="aspect-video relative overflow-hidden">
                 <img 
                   src={office.image} 
-                  alt={office.title} 
+                  alt={`Bean InfoSystems ${office.title} workspace - ${office.description}`} 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">

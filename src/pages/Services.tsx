@@ -4,7 +4,6 @@ import PageHero from '@/components/layout/PageHero';
 import PageSection from '@/components/layout/PageSection';
 import { ArrowRight } from 'lucide-react'; 
 import { Card } from '@/components/ui/card';
-import AiServicesSection from '@/components/home/AiServicesSection';
 import {
   CodeBlobIcon,
   UsersBlobIcon,
@@ -20,6 +19,8 @@ import {
 import appDevImage from '@/assets/service-application-development.jpg';
 import consultingImage from '@/assets/service-consulting.jpg';
 import advisoryImage from '@/assets/service-advisory.jpg';
+import SEOHead from '@/components/seo/SEOHead';
+import StructuredData from '@/components/seo/StructuredData';
 
 const Services = () => {
     const services = [
@@ -108,6 +109,14 @@ const Services = () => {
 
     return (
         <>
+            <SEOHead
+                title="Software Development & AI Services"
+                description="Comprehensive software development, AI solutions, and consulting services for clients. Custom application development, data analytics, and digital transformation expertise."
+                canonicalUrl="/services"
+                keywords="software development services, AI solutions, consulting services, application development, data analytics, digital transformation, client technology solutions"
+            />
+            <StructuredData pageType="service" />
+            
             <PageHero 
                 title="Our Services" 
                 subtitle="Comprehensive solutions to drive your digital success"
@@ -205,7 +214,7 @@ const Services = () => {
                                     <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
                                         <img 
                                             src={service.image} 
-                                            alt={service.title}
+                                            alt={`Bean InfoSystems ${service.title} - Professional software development and AI solutions`}
                                             className="w-full h-full object-cover"
                                         />
                                     </div>

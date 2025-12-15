@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import PageHero from '@/components/layout/PageHero';
 import PageSection from '@/components/layout/PageSection';
+import SEOHead from '@/components/seo/SEOHead';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Send } from 'lucide-react';
